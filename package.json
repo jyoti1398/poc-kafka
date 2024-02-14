@@ -1,0 +1,19 @@
+{
+  "name": "sample-node-poc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node producerFile.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.0",
+    "fit": "git+ssh://git@ssh.dev.azure.com:v3/GoFynd/CommonLibraries/fit.js#v0.5.0-prerelease",
+    "url-join": "^4.0.1"
+  }
+}

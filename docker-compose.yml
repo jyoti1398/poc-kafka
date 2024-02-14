@@ -1,0 +1,115 @@
+x-base: &base
+  build:
+    context: .
+    dockerfile: Dockerfile.dev
+  image: grindor
+  env_file: .env
+  command: npm run start
+  restart: unless-stopped
+  networks:
+    - fyndnet
+  volumes:
+    - .:/srv/grindor:cached
+    - /srv/grindor/node_modules
+
+services:
+  mongo:
+    image: mongo:latest
+    restart: always
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27017:27017
+    volumes:
+      - type: volume
+        source: MONGO_DATA
+        target: /data/db
+      - type: volume
+        source: MONGO_CONFIG
+        target: /data/configdb
+    networks:
+      - fyndnet
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    hostname: redis
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/bitnami/redis/data
+    networks:
+      - fyndnet
+
+  server:
+    <<: *base
+    hostname: server
+    environment:
+      MODE: server
+    ports:
+      - 8123:8123
+      - 3000:3000
+    networks:
+      - fyndnet
+
+  worker:
+    <<: *base
+    hostname: worker
+    environment:
+      MODE: worker
+    ports:
+      - 8230-8240:9229
+    networks:
+      - fyndnet
+
+  run-consumer:
+    <<: *base
+    hostname: run-consumer
+    environment:
+      - MODE=consumer
+      - CONSUMER_TYPE=PdfGeneratorEvent
+      - KAFKA_BROKER_LIST=cf-kafka:29092
+    networks:
+      - fyndnet
+    env_file:
+      - .env
+
+  run-consumer-internal:
+    <<: *base
+    hostname: run-consumer-internal
+    environment:
+      - MODE=consumer
+      - CONSUMER_TYPE=PdfGeneratorInternal
+      - KAFKA_BROKER_LIST=cf-kafka:29092
+    networks:
+      - fyndnet
+    env_file:
+      - .env
+
+  # cron:
+  #   <<: *base
+  #   hostname: cron
+  #   environment:
+  #     MODE: cron
+  #   networks:
+  #     - fyndnet
+  #   ports:
+  #     - 9261:9229
+
+volumes:
+  redis_data:
+    driver: local
+  MONGO_DATA:
+    name: MONGO_DATA
+  MONGO_CONFIG:
+    name: MONGO_CONFIG
+
+networks:
+  fyndnet:
+    external:
+      name: fyndnet

@@ -1,0 +1,7 @@
+{
+    "apiSpecifications" : {
+        "gitlabURI" : "git@ssh.dev.azure.com:v3/GoFynd/FyndPlatformCore/api-specifications",
+        "branch" : "grpcGrindor",
+        "fileName" : "filestorage_grindor"
+    }
+}

@@ -1,0 +1,51 @@
+version: '3.4'
+services:
+  # procuro:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: procuro
+  #   image: procuro:latest
+  #   ports:
+  #     - "80:80"
+  #   environment:
+  #     - ENV=dev
+  #   volumes:
+  #     - .:/srv/procuro
+  #   networks:
+  #     - fyndnet
+
+  cf-zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: cf-zookeeper
+    hostname: zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+    networks:
+      - fyndnet
+    ports:
+      - "2181:2181"
+
+  cf-kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: cf-kafka
+    hostname: kafka
+    environment:
+      - KAFKA_LISTENERS=PLAINTEXT://cf-kafka:29092,PLAINTEXT_HOST://localhost:9092
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://cf-kafka:29092,PLAINTEXT_HOST://localhost:9092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    depends_on:
+      - cf-zookeeper
+    networks:
+      - fyndnet
+    ports:
+      - "9092:9092"
+
+networks:
+  fyndnet:
+    external:
+      name: fyndnet
