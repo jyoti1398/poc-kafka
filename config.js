@@ -94,7 +94,8 @@ const conf = convict({
         pdf_generator_finance_publish_topic:"impetus-json-enigma-seller-invoice-status",
         manifest_generator_order: "impetus-json-manifest-order",
         manifest_generator_publish: "impetus-json-manifest-shipment-init",
-        audit_trail: "impetus-json-audit-trail-logs"
+        audit_trail: "impetus-json-audit-trail-logs",
+        abc: 'abc'
     },
     WORKER_TYPE: {
         doc: "Type of worker",

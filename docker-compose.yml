@@ -13,23 +13,23 @@ x-base: &base
     - /srv/grindor/node_modules
 
 services:
-  mongo:
-    image: mongo:latest
-    restart: always
-    # environment:
-    #   MONGO_INITDB_ROOT_USERNAME: root
-    #   MONGO_INITDB_ROOT_PASSWORD: example
-    ports:
-      - 27017:27017
-    volumes:
-      - type: volume
-        source: MONGO_DATA
-        target: /data/db
-      - type: volume
-        source: MONGO_CONFIG
-        target: /data/configdb
-    networks:
-      - fyndnet
+  # mongo:
+  #   image: mongo:latest
+  #   restart: always
+  #   # environment:
+  #   #   MONGO_INITDB_ROOT_USERNAME: root
+  #   #   MONGO_INITDB_ROOT_PASSWORD: example
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - type: volume
+  #       source: MONGO_DATA
+  #       target: /data/db
+  #     - type: volume
+  #       source: MONGO_CONFIG
+  #       target: /data/configdb
+  #   networks:
+  #     - fyndnet
 
   redis:
     image: redis:latest

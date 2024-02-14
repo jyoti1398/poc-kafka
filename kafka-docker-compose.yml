@@ -44,6 +44,17 @@ services:
       - fyndnet
     ports:
       - "9092:9092"
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    container_name: kafdrop
+    hostname: kafdrop
+    environment:
+      - KAFKA_BROKERCONNECT=cf-kafka:29092
+      - JVM_OPTS=-Xms32M -Xmx64M
+    networks:
+      - fyndnet
+    ports:
+      - "9000:9000"   
 
 networks:
   fyndnet:

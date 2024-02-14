@@ -3,12 +3,13 @@ const config = require('../../config');
 const { consumerGroupName } = config.kafka;
 
 const TOPICS = {
-    pdf_generator_order: config.kafka_topics.pdf_generator_order,
-    pdf_generator_publish_topic: config.kafka_topics.pdf_generator_publish_topic,
-    pdf_generator_finance: config.kafka_topics.pdf_generator_finance,
-    pdf_generator_finance_publish_topic: config.kafka_topics.pdf_generator_finance_publish_topic,
-    manifest_generator_order: config.kafka_topics.manifest_generator_order,
-    manifest_generator_publish: config.kafka_topics.manifest_generator_publish,
+    // pdf_generator_order: config.kafka_topics.pdf_generator_order,
+    // pdf_generator_publish_topic: config.kafka_topics.pdf_generator_publish_topic,
+    // pdf_generator_finance: config.kafka_topics.pdf_generator_finance,
+    // pdf_generator_finance_publish_topic: config.kafka_topics.pdf_generator_finance_publish_topic,
+    // manifest_generator_order: config.kafka_topics.manifest_generator_order,
+    // manifest_generator_publish: config.kafka_topics.manifest_generator_publish,
+    test_topic: config.kafka_topics.abc
 };
 const INTERNAL_TOPICS = {
     PDF_GENERATOR_INTERNAL: config.kafka_internal_topics.pdf_generator_internal,
@@ -34,9 +35,10 @@ module.exports.consumerConfig = {
         messageCount: 1,
         topics: {
             topics: [
-                TOPICS.pdf_generator_order,
-                TOPICS.pdf_generator_finance,
-                TOPICS.manifest_generator_order
+                // TOPICS.pdf_generator_order,
+                // TOPICS.pdf_generator_finance,
+                // TOPICS.manifest_generator_order
+                TOPICS.test_topic
             ], fromBeginning: false
         }
     },
